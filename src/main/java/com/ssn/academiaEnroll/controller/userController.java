@@ -1,6 +1,7 @@
 package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.User;
+import com.ssn.academiaEnroll.dto.LoginDTO;
 import com.ssn.academiaEnroll.service.userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,19 @@ public class userController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginDTO loginDTO)
+    {
+        boolean isAuthenticated = userService.authenticateUser(loginDTO.getUsername(), loginDTO.getPassword());
+
+        if (isAuthenticated)
+        {
+            return "Login successful";
+        } else
+        {
+            return "Invalid username or password";
+        }
     }
 }

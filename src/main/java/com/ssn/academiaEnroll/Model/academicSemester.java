@@ -1,12 +1,10 @@
 package com.ssn.academiaEnroll.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.time.YearMonth;
 
@@ -26,5 +24,8 @@ public class academicSemester {
     private YearMonth EndDate;
 
     private Semester semester;
+
+    @ElementCollection
+    private List<Integer> courseIds;
 }
 
