@@ -1,6 +1,7 @@
 package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Course;
+import com.ssn.academiaEnroll.Model.CourseOffering;
 import com.ssn.academiaEnroll.service.courseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,10 @@ public class courseController {
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable int id) {
         courseService.deleteCourse(id);
+    }
+
+    @GetMapping("/{courseId}/offerings")
+    public List<CourseOffering> getCourseOfferings(@PathVariable int courseId) {
+        return courseService.getCourseOfferingsByCourseId(courseId);
     }
 }
