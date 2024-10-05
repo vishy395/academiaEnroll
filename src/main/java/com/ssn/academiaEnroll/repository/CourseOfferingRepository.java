@@ -11,5 +11,6 @@ import java.util.List;
 public interface CourseOfferingRepository extends JpaRepository<CourseOffering,Integer> {
 
     List<CourseOffering> findByCourseID(int courseID);
+    List<CourseOffering> findByStudentIdsContains(Integer studentId);
 
 }
