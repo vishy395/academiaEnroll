@@ -45,4 +45,9 @@ public class courseController {
     public List<CourseOffering> getCourseOfferings(@PathVariable int courseId) {
         return courseService.getCourseOfferingsByCourseId(courseId);
     }
+
+    @GetMapping("/byAcademicSemester/{academicSemesterId}")
+    public List<Course> getCoursesByAcademicSemester(@PathVariable Long academicSemesterId) {
+        return courseService.getCoursesByAcademicSemester(academicSemesterId);
+    }
 }
