@@ -4,7 +4,7 @@ import com.ssn.academiaEnroll.Model.User;
 import com.ssn.academiaEnroll.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +13,9 @@ public class userService {
 
     @Autowired
     private userRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -23,6 +26,7 @@ public class userService {
     }
 
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

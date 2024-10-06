@@ -16,19 +16,19 @@ VALUES (3, 'Web Development', 'CS103', 'elective', 'Introduction to web technolo
 
 -- Insert into people table first (base class)
 INSERT INTO people (id, name, username, password)
-VALUES (1, 'Dr. John Doe', 'jdoe', 'password123');
+VALUES (1, 'Dr. John Doe', 'jdoe', '$2b$12$3bJkV1/QL9QwCvS740D8AeQ.kA6oUr.2nfoK/vY45eyiwc1TlKO/W');
 
 INSERT INTO faculty (id, title, experience)
 VALUES (1, 'Professor', 10);
 
 INSERT INTO people (id, name, username, password)
-VALUES (2, 'Dr. Jane Smith', 'jsmith', 'password456');
+VALUES (2, 'Dr. Jane Smith', 'jsmith', '$2b$12$aZiiRo6Sd0j49NNmoU6Xme9tdfHXFkjpujvMyGjeWizSFA.MKQzRa');
 
 INSERT INTO faculty (id, title, experience)
 VALUES (2, 'Associate Professor', 8);
 
 INSERT INTO people (id, name, username, password)
-VALUES (3, 'Dr. Alan Turing', 'aturing', 'password789');
+VALUES (3, 'Dr. Alan Turing', 'aturing', '$2b$12$2qMVLGytPpkr60B7A88JE.5S.3bKlc3HggLncx0hQaWO/Z1LnUwtK');
 
 INSERT INTO faculty (id, title, experience)
 VALUES (3, 'Assistant Professor', 5);
@@ -36,13 +36,13 @@ VALUES (3, 'Assistant Professor', 5);
 -- Insert into the PEOPLE table (for students)
 -- Insert into people table first (base class)
 INSERT INTO people (id, name, username, password)
-VALUES (4, 'Alice Johnson', 'alice', 'alicepassword');
+VALUES (4, 'Alice Johnson', 'alice', '$2b$12$DNTkUIeYLF0/K/pIFMnE6uQSOFf5GnxjbG5/KBoe/8D8pCpZ2tYsq');
 
 INSERT INTO student (id, academic_semester)
 VALUES (4, 1);
 
 INSERT INTO people (id, name, username, password)
-VALUES (5, 'Bob Brown', 'bob', 'bobpassword');
+VALUES (5, 'Bob Brown', 'bob', '$2b$12$FwyOMaZpztYaErRITBvEr.4CR2cpRrIAe3V1UU0LYsQlqeL06HbmS');
 
 INSERT INTO student (id, academic_semester)
 VALUES (5, 2);

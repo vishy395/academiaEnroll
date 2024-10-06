@@ -20,4 +20,11 @@ public class Faculty extends User{
     private int experience;
     @ElementCollection
     private List<Integer> studentIds;
+
+    public Faculty(String name, String username, String password, String title, int experience, List<Integer> studentIds) {
+        super(name, username, password, "ROLE_FACULTY");  // Set role as ROLE_FACULTY
+        this.title = title;
+        this.experience = experience;
+        this.studentIds = studentIds;
+    }
 }
