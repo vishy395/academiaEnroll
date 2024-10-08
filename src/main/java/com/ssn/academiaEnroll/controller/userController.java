@@ -4,10 +4,6 @@ import com.ssn.academiaEnroll.Model.User;
 import com.ssn.academiaEnroll.dto.LoginDTO;
 import com.ssn.academiaEnroll.service.userService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +15,7 @@ public class userController {
     @Autowired
     private userService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
 
     // Get all users
     @GetMapping
@@ -53,21 +48,13 @@ public class userController {
         userService.deleteUser(id);
     }
 
-    // Login endpoint (Spring Security will authenticate the user)
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO) {
-        try {
-            // Perform authentication
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
-            );
+    public String login(@RequestBody LoginDTO user) {
 
-            // Set the authentication in the context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            return "Login successful";
-        } catch (Exception e) {
-            return "Invalid username or password";
-        }
+        return userService.verify(user);
     }
+
+
 }
+
+

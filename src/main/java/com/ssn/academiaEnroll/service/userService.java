@@ -1,12 +1,16 @@
 package com.ssn.academiaEnroll.service;
 
 import com.ssn.academiaEnroll.Model.User;
+import com.ssn.academiaEnroll.dto.LoginDTO;
 import com.ssn.academiaEnroll.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class userService {
@@ -15,7 +19,12 @@ public class userService {
     private userRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private JWTService jwtService;
+
+    @Autowired
+    AuthenticationManager authManager;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -26,7 +35,7 @@ public class userService {
     }
 
     public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -34,14 +43,15 @@ public class userService {
         userRepository.deleteById(id);
     }
 
-    public boolean authenticateUser(String username, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
+    public String verify(LoginDTO user) {
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            return user.getPassword().equals(password);
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(user.getUsername())  ;
+        } else {
+            return "fail";
         }
-
-        return false;
     }
+
+
 }
