@@ -4,6 +4,7 @@ import com.ssn.academiaEnroll.Model.Course;
 import com.ssn.academiaEnroll.Model.CourseOffering;
 import com.ssn.academiaEnroll.service.courseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,5 +50,11 @@ public class courseController {
     @GetMapping("/byAcademicSemester/{academicSemesterId}")
     public List<Course> getCoursesByAcademicSemester(@PathVariable Long academicSemesterId) {
         return courseService.getCoursesByAcademicSemester(academicSemesterId);
+    }
+
+    @PostMapping("/{courseId}/offerings")
+    @PreAuthorize("hasRole('USER')")
+    public List<CourseOffering> addCourseOffering(@PathVariable int courseId, @RequestBody List<CourseOffering> courseOfferings) {
+        return courseService.addCourseOfferings(courseId, courseOfferings);
     }
 }

@@ -44,14 +44,28 @@ public class courseService {
         return courseOfferingRepository.findByCourseID(courseId);
     }
 
+    public List<CourseOffering> addCourseOfferings(int courseId, List<CourseOffering> courseOfferings) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+
+        for (CourseOffering courseOffering : courseOfferings) {
+            courseOffering.setCourseID(courseId);
+            CourseOffering savedOffering = courseOfferingRepository.save(courseOffering);
+            course.getCourseOfferings().add(savedOffering.getId());
+        }
+        courseRepository.save(course);
+        return courseOfferings;
+    }
+
+
+
     public List<Course> getCoursesByAcademicSemester(Long academicSemesterId) {
         Optional<academicSemester> academicSemesterOptional = academicSemesterRepository.findById(academicSemesterId);
 
         if (academicSemesterOptional.isPresent()) {
             academicSemester semester = academicSemesterOptional.get();
             List<Integer> courseIds = semester.getCourseIds();
-
-            // Fetch courses using the list of course IDs
             return courseRepository.findByIdIn(courseIds);
         } else {
             throw new RuntimeException("Academic Semester not found");

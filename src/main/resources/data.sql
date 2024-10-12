@@ -49,14 +49,14 @@ VALUES (5, 2);
 
 
 -- Insert into the COURSE_OFFERING table
-INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
-VALUES (1, 50, 'A', 1, 1, 1);
+--INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
+--VALUES (1, 50, 'A', 1, 1, 1);
 
-INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
-VALUES (2, 60, 'B', 2, 2, 2);
+--INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
+--VALUES (2, 60, 'B', 2, 2, 2);
 
-INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
-VALUES (3, 40, 'C', 3, 3, 1);
+--INSERT INTO course_offering (id, capacity, class_name, courseid, facultyid, academic_semester)
+--VALUES (3, 40, 'C', 3, 3, 1);
 
 -- For academic semester 1, add course IDs
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
