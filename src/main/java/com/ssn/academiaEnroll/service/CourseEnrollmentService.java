@@ -2,15 +2,16 @@ package com.ssn.academiaEnroll.service;
 
 import com.ssn.academiaEnroll.Model.CourseOffering;
 import com.ssn.academiaEnroll.Model.CourseEnrollmentHistory;
+import com.ssn.academiaEnroll.Model.Faculty;
 import com.ssn.academiaEnroll.repository.CourseOfferingRepository;
 import com.ssn.academiaEnroll.repository.CourseEnrollmentHistoryRepository;
 import com.ssn.academiaEnroll.repository.studentRepository;
+import com.ssn.academiaEnroll.repository.facultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Service
 public class CourseEnrollmentService {
 
@@ -22,6 +23,9 @@ public class CourseEnrollmentService {
 
     @Autowired
     private studentRepository studentRepository;
+
+    @Autowired
+    private facultyRepository facultyRepository;
 
     public String enrollStudent(int courseOfferingId, int studentId) {
 
@@ -51,7 +55,16 @@ public class CourseEnrollmentService {
         courseOffering.getStudentIds().add(studentId);
         courseOfferingRepository.save(courseOffering);
 
-        // Step 6: Log enrollment in CourseEnrollmentHistory
+        // Step 6: Add student to the faculty's list
+        Faculty faculty = facultyRepository.findById(courseOffering.getFacultyID())
+                .orElseThrow(() -> new RuntimeException("Faculty not found"));
+
+        if (!faculty.getStudentIds().contains(studentId)) {
+            faculty.getStudentIds().add(studentId);
+            facultyRepository.save(faculty);
+        }
+
+        // Step 7: Log enrollment in CourseEnrollmentHistory
         CourseEnrollmentHistory history = new CourseEnrollmentHistory();
         history.setStudentId(studentId);
         history.setCourseOfferingId(courseOfferingId);
