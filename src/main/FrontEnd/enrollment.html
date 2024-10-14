@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Enrollment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>Course Enrollment</h1>
+
+  <form id="enrollmentForm">
+    <div class="form-group">
+      <label for="courseOfferingId">Course Offering ID:</label>
+      <input type="number" id="courseOfferingId" placeholder="Enter the course offering ID" required>
+    </div>
+
+    <button type="submit">Enroll</button>
+  </form>
+
+  <div id="enrollMessage"></div>
+</div>
+
+<script src="enrollment.js"></script>
+</body>
+</html>
