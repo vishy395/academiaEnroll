@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class Student extends User{
 
     private Long academicSemester;
-    public Student(String name, String username, String password, Long academicSemester) {
-        super(name, username, password, "ROLE_STUDENT");  // Set role as ROLE_STUDENT
+    public Student(String name, String username, String password, String role,Long academicSemester) {
+        super(name, username, password, role);  // Set role as ROLE_STUDENT
         this.academicSemester = academicSemester;
     }
 }

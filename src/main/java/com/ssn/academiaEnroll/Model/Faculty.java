@@ -21,8 +21,8 @@ public class Faculty extends User{
     @ElementCollection
     private List<Integer> studentIds;
 
-    public Faculty(String name, String username, String password, String title, int experience, List<Integer> studentIds) {
-        super(name, username, password, "ROLE_FACULTY");  // Set role as ROLE_FACULTY
+    public Faculty(String name, String username, String password,String role, String title, int experience, List<Integer> studentIds) {
+        super(name, username, password, role);  // Set role as ROLE_FACULTY
         this.title = title;
         this.experience = experience;
         this.studentIds = studentIds;

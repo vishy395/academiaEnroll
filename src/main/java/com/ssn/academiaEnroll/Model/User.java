@@ -34,8 +34,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        //System.out.println("$"+this.getRole()+"$");
+
+        return Collections.singleton(new SimpleGrantedAuthority(this.getRole()));
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

@@ -1,5 +1,6 @@
 package com.ssn.academiaEnroll.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
@@ -9,18 +10,17 @@ import io.jsonwebtoken.Claims;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JWTService {
     private String secretkey = "";
 
-    public JWTService() {
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
 
+    public JWTService() {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = keyGen.generateKey();
@@ -31,17 +31,24 @@ public class JWTService {
     }
 
     public String generateToken(String username) {
+        // Step 1: Fetch the UserDetails to get role
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+
+        // Step 2: Get the single role from UserDetails
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
+        // Step 3: Add role to claims
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);  // Add role to the claims
+
+        // Step 4: Generate the token
         return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
-                .and()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .signWith(getKey())
                 .compact();
-
     }
 
     private SecretKey getKey() {
@@ -50,7 +57,6 @@ public class JWTService {
     }
 
     public String extractUserName(String token) {
-        // extract the username from jwt token
         return extractClaim(token, Claims::getSubject);
     }
 
