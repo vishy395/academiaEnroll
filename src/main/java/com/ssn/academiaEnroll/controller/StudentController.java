@@ -1,8 +1,13 @@
 package com.ssn.academiaEnroll.controller;
 
+import com.ssn.academiaEnroll.Model.Course;
 import com.ssn.academiaEnroll.Model.Student;
+import com.ssn.academiaEnroll.Model.academicSemester;
+import com.ssn.academiaEnroll.service.MyUserDetailsService;
+import com.ssn.academiaEnroll.service.courseService;
 import com.ssn.academiaEnroll.service.studentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +18,12 @@ public class StudentController {
 
     @Autowired
     private studentService studentService;
+
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private courseService courseService;
 
     @GetMapping
     public List<Student> getAllStudents() {
@@ -38,5 +49,20 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable int id) {
         studentService.deleteStudent(id);
+    }
+
+    @GetMapping("/current/semester")
+    public Long getCurrentStudentSemester(Authentication authentication) {
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+        Student student = studentService.getStudentById(studentId);
+        return student.getAcademicSemester();  // Assuming this field exists in Student entity
+    }
+
+    @GetMapping("/current/courses")
+    public List<Course> getCoursesForCurrentStudent(Authentication authentication) {
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+        Student student = studentService.getStudentById(studentId);
+        Long semesterId = student.getAcademicSemester(); // Get the student's academic semester
+        return courseService.getCoursesByAcademicSemester(semesterId);
     }
 }

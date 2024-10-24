@@ -2,12 +2,17 @@ package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Course;
 import com.ssn.academiaEnroll.Model.CourseOffering;
+import com.ssn.academiaEnroll.service.CourseEnrollmentService;
+import com.ssn.academiaEnroll.service.MyUserDetailsService;
 import com.ssn.academiaEnroll.service.courseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -15,6 +20,12 @@ public class courseController {
 
     @Autowired
     private courseService courseService;
+
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private CourseEnrollmentService courseEnrollmentService;
 
     @GetMapping
     public List<Course> getAllCourses() {
@@ -57,4 +68,31 @@ public class courseController {
     public List<CourseOffering> addCourseOffering(@PathVariable int courseId, @RequestBody List<CourseOffering> courseOfferings) {
         return courseService.addCourseOfferings(courseId, courseOfferings);
     }
+
+    @PostMapping("/enroll")
+    public ResponseEntity<String> enrollInCourseOffering(@RequestBody Map<String, Integer> requestBody, Authentication authentication) {
+        int courseOfferingId = requestBody.get("courseOfferingId");
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+
+        String result = courseEnrollmentService.enrollStudent(courseOfferingId, studentId);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/deroll")
+    public ResponseEntity<String> derollFromCourseOffering(@RequestBody Map<String, Integer> requestBody, Authentication authentication) {
+        int courseOfferingId = requestBody.get("courseOfferingId");
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+
+        String result = courseEnrollmentService.derollStudent(courseOfferingId, studentId);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{courseOfferingId}/isEnrolled")
+    public ResponseEntity<Boolean> isStudentEnrolled(@PathVariable int courseOfferingId, Authentication authentication) {
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+        boolean isEnrolled = courseEnrollmentService.isStudentEnrolled(courseOfferingId, studentId);
+        return ResponseEntity.ok(isEnrolled);
+    }
+
+
 }

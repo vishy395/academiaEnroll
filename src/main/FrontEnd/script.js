@@ -20,12 +20,12 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         });
 
         if (response.ok) {
-            const token = await response.text(); // Assuming JWT token is returned as plain text
+            const token = await response.text();
             localStorage.setItem('token', token);
 
             // Decode the token manually to extract the role
             const decodedToken = decodeJWT(token);
-            const userRole = decodedToken.role;  // Assuming the role is stored as 'role'
+            const userRole = decodedToken.role;
 
             // Redirect based on role
             if (userRole === 'ROLE_STUDENT') {

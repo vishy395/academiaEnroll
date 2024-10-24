@@ -74,4 +74,48 @@ public class CourseEnrollmentService {
 
         return "Enrollment successful";
     }
+
+    public String derollStudent(int courseOfferingId, int studentId) {
+        // Step 1: Fetch the CourseOffering
+        CourseOffering courseOffering = courseOfferingRepository.findById(courseOfferingId)
+                .orElseThrow(() -> new RuntimeException("Course offering not found"));
+
+        // Step 2: Check if the student is actually enrolled in this offering
+        if (!courseOffering.getStudentIds().contains(studentId)) {
+            return "Student not enrolled in this course offering";
+        }
+
+        // Step 3: Remove the student from the CourseOffering
+        courseOffering.getStudentIds().remove((Integer) studentId);
+        courseOfferingRepository.save(courseOffering);
+
+        // Step 4: Fetch the faculty associated with the CourseOffering
+        Faculty faculty = facultyRepository.findById(courseOffering.getFacultyID())
+                .orElseThrow(() -> new RuntimeException("Faculty not found"));
+
+        // Step 5: Remove the student from the faculty's list (if present)
+        if (faculty.getStudentIds().contains(studentId)) {
+            faculty.getStudentIds().remove((Integer) studentId);
+            facultyRepository.save(faculty);
+        }
+
+        // Step 6: Log the deroll action in CourseEnrollmentHistory
+        CourseEnrollmentHistory history = new CourseEnrollmentHistory();
+        history.setStudentId(studentId);
+        history.setCourseOfferingId(courseOfferingId);
+        history.setTimestamp(LocalDateTime.now());
+        history.setAction("DE-ROLLED");
+        courseEnrollmentHistoryRepository.save(history);
+
+        return "Successfully derolled from the course offering";
+    }
+
+    public boolean isStudentEnrolled(int courseOfferingId, int studentId) {
+        // Fetch the course offering
+        CourseOffering courseOffering = courseOfferingRepository.findById(courseOfferingId)
+                .orElseThrow(() -> new RuntimeException("Course offering not found"));
+
+        // Check if the student is enrolled
+        return courseOffering.getStudentIds().contains(studentId);
+    }
 }

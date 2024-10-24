@@ -3,9 +3,11 @@ package com.ssn.academiaEnroll.controller;
 import com.ssn.academiaEnroll.Model.Faculty;
 import com.ssn.academiaEnroll.service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/faculty")
