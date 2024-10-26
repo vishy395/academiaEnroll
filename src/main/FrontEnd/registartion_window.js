@@ -48,13 +48,13 @@ function displayCourses(courses) {
     courseContainer.innerHTML = '';
 
     courses.forEach(course => {
-        if (course.type === 'class') {
+        if (course.type === 'core') {
             ['A', 'B', 'C'].forEach(sectionName => {
                 const sectionDiv = document.createElement('div');
                 sectionDiv.innerHTML = `
                     <h3>${course.name} - Section ${sectionName}</h3>
                     <label>Select Faculty for Section ${sectionName}:</label>
-                    <select class="faculty-select" data-course-id="${course.id}" data-section="${sectionName}">
+                    <select class="faculty-select" data-course-id="${course.id}" data-section="${sectionName}" data-capacity="50" data-class="${sectionName}" data-semester-id="1">
                         <option value="">--Select Faculty--</option>
                     </select>
                 `;
@@ -65,7 +65,7 @@ function displayCourses(courses) {
             electiveDiv.innerHTML = `
                 <h3>${course.name} - Elective</h3>
                 <label>Select Faculty for Elective:</label>
-                <select class="faculty-select" data-course-id="${course.id}" data-section="Elective">
+                <select class="faculty-select" data-course-id="${course.id}" data-section="Elective" data-capacity="30" data-class="Elective" data-semester-id="1">
                     <option value="">--Select Faculty--</option>
                 </select>
             `;
@@ -75,7 +75,6 @@ function displayCourses(courses) {
 
     fetchFacultyList(); // Fetch and populate faculty dropdown
 }
-
 
 // Fetch faculty list and populate dropdowns
 function fetchFacultyList() {
@@ -102,24 +101,23 @@ function fetchFacultyList() {
         });
 }
 
-// Submit faculty assignments in a batch
 function submitFacultyAssignment() {
     const selects = document.querySelectorAll('.faculty-select');
     const courseOfferings = [];
 
     // Iterate over each course selection and build the course offering object
     selects.forEach(select => {
-        const courseOfferingId = select.getAttribute('data-course-id');
         const facultyId = select.value;
-
-
+        const courseOfferingId = select.getAttribute('data-course-id');
         const capacity = select.getAttribute('data-capacity');
         const className = select.getAttribute('data-class');
         const courseId = select.getAttribute('data-course-id');
         const academicSemester = select.getAttribute('data-semester-id');
 
-        if (facultyId) {
+        console.log(`Processing select with courseOfferingId: ${courseOfferingId}, facultyId: ${facultyId}`);
 
+        if (facultyId) {
+            // Build course offering object
             const offering = {
                 id: parseInt(courseOfferingId),
                 capacity: parseInt(capacity),
@@ -130,34 +128,34 @@ function submitFacultyAssignment() {
                 academicSemester: parseInt(academicSemester)
             };
 
+            console.log("Adding Course Offering:", offering);  // Debugging log
             courseOfferings.push(offering);
         }
     });
 
-    if (courseOfferings.length > 0) {
-        // Send the entire array of course offerings in a single POST request
-        fetch(`http://localhost:8080/api/courses/${courseOfferings[0].courseID}/offerings`, {
+    // Submit each course offering separately
+    courseOfferings.forEach(offering => {
+        fetch(`http://localhost:8080/api/courses/${offering.courseID}/offerings`, {  // Send one by one
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(courseOfferings)  // Send the course offerings array as JSON
+            body: JSON.stringify([offering])  // Send each offering separately
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Faculty assigned successfully!');
+                    console.log(`Faculty assigned successfully for Course ID: ${offering.courseID}`);
                 } else {
-                    alert('Failed to assign faculty.');
+                    console.error(`Failed to assign faculty for Course ID: ${offering.courseID}`, response);
                 }
             })
             .catch(error => {
-                console.error('Error assigning faculty:', error);
+                console.error(`Error assigning faculty for Course ID: ${offering.courseID}`, error);
             });
-    } else {
-        alert('No faculty assignments were made.');
-    }
+    });
 }
+
 
 // Event listener to trigger the submission when the "Add" button is clicked
 document.getElementById('addButton').addEventListener('click', submitFacultyAssignment);
