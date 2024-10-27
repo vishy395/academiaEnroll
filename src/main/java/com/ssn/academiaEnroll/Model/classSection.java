@@ -4,5 +4,5 @@ public enum classSection {
     A,
     B,
     C,
-    ELECTIVE
+    elective
 }

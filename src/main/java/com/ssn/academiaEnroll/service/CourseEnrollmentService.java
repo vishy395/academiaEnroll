@@ -3,6 +3,7 @@ package com.ssn.academiaEnroll.service;
 import com.ssn.academiaEnroll.Model.CourseOffering;
 import com.ssn.academiaEnroll.Model.CourseEnrollmentHistory;
 import com.ssn.academiaEnroll.Model.Faculty;
+import com.ssn.academiaEnroll.Model.classSection;
 import com.ssn.academiaEnroll.repository.CourseOfferingRepository;
 import com.ssn.academiaEnroll.repository.CourseEnrollmentHistoryRepository;
 import com.ssn.academiaEnroll.repository.studentRepository;
@@ -39,12 +40,18 @@ public class CourseEnrollmentService {
         }
 
         // Step 3: Check if already enrolled in a different class section
-        List<CourseOffering> enrolledOfferings = courseOfferingRepository.findByStudentId(studentId);
-        for (CourseOffering offering : enrolledOfferings) {
-            if (offering.getClassName() != courseOffering.getClassName()) {
-                return "Already enrolled in a different class section";
+        if(courseOffering.getClassName()!= classSection.elective) {
+            List<CourseOffering> enrolledOfferings = courseOfferingRepository.findByStudentId(studentId);
+            for (CourseOffering offering : enrolledOfferings) {
+                if (offering.getClassName() != classSection.elective) {
+                    if (offering.getClassName() != courseOffering.getClassName()) {
+                        return "Already enrolled in a different class section";
+                    }
+                }
+
             }
         }
+
 
         // Step 4: Check if already enrolled in a different offering of the same course
         if (courseOfferingRepository.existsByStudentIdAndCourseID(studentId, courseOffering.getCourseID())) {

@@ -60,14 +60,16 @@ VALUES (5, 2);
 
 -- For academic semester 1, add course IDs
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
-VALUES (1, 1), (1, 2);
+VALUES (1, 1), (1, 2), (1, 3);
 
 -- For academic semester 2, add course IDs
-INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
-VALUES (2, 3);
+
 
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
 VALUES (2, 1);
 
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
 VALUES (2, 2);
+
+INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
+VALUES (2, 3);

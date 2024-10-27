@@ -1,50 +1,211 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+/* Container Styling */
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: auto;
+    background: linear-gradient(135deg, #ffffff 20%, #f0f4f8 80%);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
 }
 
 h1 {
-    text-align: center;
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 1.8rem;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
+/* Login Button Styling for Welcome to Academia Page */
+.container a.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.container a.btn:hover {
+    background: linear-gradient(135deg, #5a0fb4 0%, #1f66d9 100%);
+    transform: translateY(-3px);
+}
+
+/* Form Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
+    text-align: left;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.4rem;
+    color: #444;
+    font-weight: bold;
 }
 
-input {
+input[type="text"],
+input[type="password"] {
     width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: #f0f4f8;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #6a11cb;
+    background: #fff;
+    outline: none;
+    box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit Button Styling */
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+    padding: 12px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #ffffff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #5a0fb4 0%, #1f66d9 100%);
+    transform: translateY(-3px);
 }
 
+#loginMessage {
+    margin-top: 1.2rem;
+    color: #ff4d4d;
+    font-size: 0.9rem;
+}
+
+/* Ordered List Styling (Welcome Student Page) */
+.container ol {
+    list-style: none; /* Remove default numbers */
+    counter-reset: item; /* Custom counter for numbering */
+    padding: 0;
+    margin: 0;
+}
+
+.container ol li {
+    counter-increment: item; /* Increment counter for each item */
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #ffffff 20%, #f0f4f8 80%);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.container ol li::before {
+    content: counter(item) ". ";
+    font-weight: bold;
+    color: #6a11cb;
+    margin-right: 0.5rem;
+}
+
+.container ol li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.container ol li:hover {
+    transform: translateX(5px);
+    background: linear-gradient(135deg, #f0f4f8, #e8ebf2);
+}
+
+.container ol li a:hover {
+    color: #6a11cb;
+}
+
+/* Unordered List Styling (Student Home Page) */
+.container ul {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    margin: 1.5rem 0 0; /* Top margin for spacing */
+}
+
+.container ul li {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #ffffff 20%, #f0f4f8 80%);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.container ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.container ul li:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #f0f4f8, #e8ebf2);
+}
+
+.container ul li a:hover {
+    color: #6a11cb;
+}
+
+
+.add-button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: inline-block; /* Ensure the button is displayed */
+    margin-top: 10px; /* Add spacing */
+}
+
+.added {
+    background-color: #32CD32;
+}
 
