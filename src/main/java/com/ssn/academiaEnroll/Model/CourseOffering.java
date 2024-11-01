@@ -27,5 +27,7 @@ public class CourseOffering {
     private List<Integer> studentIds;
     private int academicSemester;
 
-
+    public int getFacultyID() {
+        return facultyID;
+    }
 }

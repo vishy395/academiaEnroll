@@ -73,3 +73,6 @@ VALUES (2, 2);
 
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
 VALUES (2, 3);
+
+INSERT INTO message (content,sender,receiver)
+VALUES ('HELLO',1,5);
