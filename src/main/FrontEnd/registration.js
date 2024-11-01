@@ -1,15 +1,46 @@
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
-    const studentId = getStudentIdFromToken(token);  // Assume you decode token to get student ID
 
-    fetchCoursesBySemester(studentId);
+    // Check if the registration is open
+    checkRegistrationStatus().then(isOpen => {
+        if (isOpen) {
+            const studentId = getStudentIdFromToken(token);  // Assume you decode token to get student ID
+            fetchCoursesBySemester(studentId);
+        } else {
+            displayClosedRegistrationMessage();
+        }
+    });
 });
 
+// Function to check if registration is open
+function checkRegistrationStatus() {
+    return fetch('http://localhost:8080/api/registration/status', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch registration status');
+            }
+            return response.json(); // Return the boolean status
+        })
+        .catch(error => {
+            console.error('Error checking registration status:', error);
+            alert('Unable to check registration status. Please try again later.');
+            return false; // Default to false if there's an error
+        });
+}
+
+// Function to get student ID from token
 function getStudentIdFromToken(token) {
     const decodedToken = JSON.parse(atob(token.split('.')[1])); // Simplified JWT decode
     return decodedToken.id;  // Assuming student ID is stored in token
 }
 
+// Function to fetch courses for the student
 function fetchCoursesBySemester(studentId) {
     fetch(`http://localhost:8080/api/students/current/courses`, {
         method: 'GET',
@@ -27,6 +58,13 @@ function fetchCoursesBySemester(studentId) {
         });
 }
 
+// Function to display a message if registration is closed
+function displayClosedRegistrationMessage() {
+    const courseList = document.getElementById('course-list');
+    courseList.innerHTML = '<p>Course registration is currently closed. Please check back later.</p>';
+}
+
+// Function to display courses
 function displayCourses(courses) {
     const courseList = document.getElementById('course-list');
     courseList.innerHTML = '';
@@ -44,6 +82,7 @@ function displayCourses(courses) {
     });
 }
 
+// Function to fetch course offerings
 function fetchCourseOfferings(courseId, courseDiv) {
     fetch(`http://localhost:8080/api/courses/${courseId}/offerings`, {
         method: 'GET',
@@ -64,7 +103,7 @@ function fetchCourseOfferings(courseId, courseDiv) {
 
                 const enrollButton = document.createElement('button');
 
-                // Fetch enrollment status from the backend for each offering
+                // Fetch enrollment status for each offering
                 fetch(`http://localhost:8080/api/courses/${offering.id}/isEnrolled`, {
                     method: 'GET',
                     headers: {
@@ -74,7 +113,7 @@ function fetchCourseOfferings(courseId, courseDiv) {
                 })
                     .then(response => response.json())
                     .then(isEnrolled => {
-                        // Set the button text based on enrollment status
+                        // Set button text based on enrollment status
                         enrollButton.innerText = isEnrolled ? 'Deroll' : 'Enroll';
 
                         // Set the action when the button is clicked
@@ -95,6 +134,7 @@ function fetchCourseOfferings(courseId, courseDiv) {
         });
 }
 
+// Function to toggle enrollment
 function toggleEnrollment(courseOfferingId, button) {
     const action = button.innerText === 'Enroll' ? 'enroll' : 'deroll';
 
@@ -132,8 +172,3 @@ function toggleEnrollment(courseOfferingId, button) {
             alert('Error: ' + error.message);
         });
 }
-
-
-
-
-

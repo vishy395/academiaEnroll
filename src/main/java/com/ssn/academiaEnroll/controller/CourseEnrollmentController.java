@@ -1,7 +1,6 @@
 package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.service.CourseEnrollmentService;
-import com.ssn.academiaEnroll.service.JWTService;
 import com.ssn.academiaEnroll.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +30,6 @@ public class CourseEnrollmentController {
 
         return ResponseEntity.ok(result);
     }
+
 }
 

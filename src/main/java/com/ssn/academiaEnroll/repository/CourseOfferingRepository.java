@@ -1,7 +1,6 @@
 package com.ssn.academiaEnroll.repository;
 
 import com.ssn.academiaEnroll.Model.CourseOffering;
-import com.ssn.academiaEnroll.Model.academicSemester;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +13,8 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering,I
 
     List<CourseOffering> findByCourseID(int courseID);
     List<CourseOffering> findByStudentIdsContains(Integer studentId);
+    @Query("SELECT c FROM CourseOffering c WHERE c.academicSemester = :semester")
+    List<CourseOffering> findByAcademicSemester(@Param("semester") int academicSemester);
 
     // Custom query to check if a student is enrolled in a course offering
     @Query("SELECT co FROM CourseOffering co WHERE :studentId MEMBER OF co.studentIds")

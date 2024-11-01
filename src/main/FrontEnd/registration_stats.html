@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Stats</title>
+</head>
+<body>
+<h1>Registration Statistics</h1>
+<label for="semester">Select Semester:</label>
+<select id="semester" name="semester" onchange="fetchCourseOfferingsBySemester()">
+  <option value="">--Select Semester--</option>
+</select>
+
+<div id="course-offerings"></div>
+
+<button onclick="exportData('csv')">Export to CSV</button>
+<button onclick="exportData('txt')">Export to TXT</button>
+
+<script src="registration_stats.js"></script>
+</body>
+</html>

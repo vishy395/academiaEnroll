@@ -2,7 +2,6 @@ package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Course;
 import com.ssn.academiaEnroll.Model.Student;
-import com.ssn.academiaEnroll.Model.academicSemester;
 import com.ssn.academiaEnroll.service.MyUserDetailsService;
 import com.ssn.academiaEnroll.service.courseService;
 import com.ssn.academiaEnroll.service.studentService;
