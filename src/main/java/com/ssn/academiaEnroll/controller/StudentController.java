@@ -2,6 +2,7 @@ package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Course;
 import com.ssn.academiaEnroll.Model.Student;
+import com.ssn.academiaEnroll.service.ModuleService;
 import com.ssn.academiaEnroll.service.MyUserDetailsService;
 import com.ssn.academiaEnroll.service.courseService;
 import com.ssn.academiaEnroll.service.studentService;
@@ -23,6 +24,9 @@ public class StudentController {
 
     @Autowired
     private courseService courseService;
+
+    @Autowired
+    private ModuleService moduleService;
 
     @GetMapping
     public List<Student> getAllStudents() {
@@ -63,5 +67,11 @@ public class StudentController {
         Student student = studentService.getStudentById(studentId);
         Long semesterId = student.getAcademicSemester(); // Get the student's academic semester
         return courseService.getCoursesByAcademicSemester(semesterId);
+    }
+
+    @GetMapping("/modules")
+    public List<com.ssn.academiaEnroll.Model.Module> getStudentModules(Authentication authentication) {
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+        return moduleService.getModulesForStudent(studentId);
     }
 }

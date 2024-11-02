@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Courses</title>
+</head>
+<body>
+
+<h1>My Modules</h1>
+<div id="modules-container">
+  <!-- Modules will be displayed here -->
+</div>
+
+<script>
+  // Fetch and display modules for the student
+  window.onload = function() {
+    fetch('http://localhost:8080/api/students/modules', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+            .then(response => response.json())
+            .then(modules => {
+              console.log("Fetched modules:", modules); // Debug: log the response
+              const container = document.getElementById('modules-container');
+              container.innerHTML = ''; // Clear previous content if any
+
+              // Check if modules are defined and is an array
+              if (Array.isArray(modules) && modules.length > 0) {
+                modules.forEach(module => {
+                  const moduleDiv = document.createElement('div');
+                  moduleDiv.classList.add('module');
+
+                  moduleDiv.innerHTML = `
+                    <h2>${module.name}</h2>
+                    <p>Faculty ID: ${module.facultyId}</p>
+                    <p>Materials:</p>
+                    <ul>
+                        ${module.materialUrls && module.materialUrls.length > 0
+                          ? module.materialUrls.map(url => `<li><a href="${url}" target="_blank">${url}</a></li>`).join('')
+                          : '<li>No materials available</li>'}
+                    </ul>
+                `;
+
+                  container.appendChild(moduleDiv);
+                });
+              } else {
+                container.innerHTML = '<p>No modules available for you at the moment.</p>';
+              }
+            })
+            .catch(error => {
+              console.error("Error fetching modules:", error);
+              document.getElementById('modules-container').innerHTML = '<p>Error loading modules. Please try again later.</p>';
+            });
+  }
+</script>
+
+</body>
+</html>

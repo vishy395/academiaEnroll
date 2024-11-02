@@ -1,8 +1,13 @@
 package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Faculty;
+import com.ssn.academiaEnroll.Model.Student;
+import com.ssn.academiaEnroll.repository.studentRepository;
 import com.ssn.academiaEnroll.service.FacultyService;
+import com.ssn.academiaEnroll.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +19,11 @@ public class FacultyController {
     @Autowired
     private FacultyService facultyService;
 
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private studentRepository studentRepository;
     @GetMapping
     public List<Faculty> getAllFaculty() {
         return facultyService.getAllFaculty();
@@ -38,5 +48,13 @@ public class FacultyController {
     @DeleteMapping("/{id}")
     public void deleteFaculty(@PathVariable int id) {
         facultyService.deleteFaculty(id);
+    }
+
+    @GetMapping("/students")
+    public List<Student> getStudentsForFaculty() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int facultyId = myUserDetailsService.getLoggedInUserId(authentication);
+        List<Integer> studentIds = facultyService.getStudentsForFaculty(facultyId);
+        return studentRepository.findAllById(studentIds);
     }
 }

@@ -1,0 +1,45 @@
+<!-- view-modules.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Modules</title>
+</head>
+<body>
+<h1>Your Modules</h1>
+<div id="module-list">Loading...</div>
+
+<script>
+  window.onload = function() {
+    fetch('http://localhost:8080/api/modules/faculty', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+            .then(response => response.json())
+            .then(modules => {
+              const moduleList = document.getElementById('module-list');
+              moduleList.innerHTML = ''; // Clear loading message
+
+              if (!modules.length) {
+                moduleList.innerHTML = 'No modules found.';
+                return;
+              }
+
+              modules.forEach(module => {
+                const moduleDiv = document.createElement('div');
+                moduleDiv.innerHTML = `
+                    <h3>${module.name}</h3>
+                    <p>Materials: ${module.materialUrls.length}</p>
+                    <p>Students Enrolled: ${module.studentIds.length}</p>
+                `;
+                moduleList.appendChild(moduleDiv);
+              });
+            })
+            .catch(error => console.error('Error loading modules:', error));
+  };
+</script>
+</body>
+</html>
