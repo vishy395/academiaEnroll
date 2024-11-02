@@ -4,18 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Stats</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Registration Statistics</h1>
-<label for="semester">Select Semester:</label>
-<select id="semester" name="semester" onchange="fetchCourseOfferingsBySemester()">
-  <option value="">--Select Semester--</option>
-</select>
+<div class="container">
+  <h1>Registration Statistics</h1>
+  <label for="semester">Select Semester:</label>
+  <select id="semester" name="semester" onchange="fetchCourseOfferingsBySemester()">
+    <option value="">--Select Semester--</option>
+  </select>
 
-<div id="course-offerings"></div>
+  <div id="course-offerings">
+    <!-- Dynamic content will load here -->
+  </div>
 
-<button onclick="exportData('csv')">Export to CSV</button>
-<button onclick="exportData('txt')">Export to TXT</button>
+  <button onclick="exportData('csv')">Export to CSV</button>
+  <button onclick="exportData('txt')">Export to TXT</button>
+</div>
 
 <script src="registration_stats.js"></script>
 </body>

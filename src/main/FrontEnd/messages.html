@@ -9,13 +9,15 @@
     <script src="messages.js" defer></script>
 </head>
 <body>
-<h1>Messages</h1>
-<div>
-    <label for="receiverSelect">Select Receiver:</label>
-    <select id="receiverSelect"></select>
+<div class="container">
+    <h1>Messages</h1>
+    <div class="form-group">
+        <label for="receiverSelect">Select Receiver:</label>
+        <select id="receiverSelect" class="styled-select"></select>
+    </div>
+    <div class="message-list"></div>
+    <textarea id="messageContent" placeholder="Type your message here..." class="message-input"></textarea>
+    <button id="sendMessageButton" class="add-button">Send Message</button>
 </div>
-<div class="message-list"></div>
-<textarea id="messageContent" placeholder="Type your message here..."></textarea>
-<button id="sendMessageButton">Send Message</button>
 </body>
 </html>

@@ -7,16 +7,23 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Select Faculty for Courses</h1>
+<div class="container">
+  <h1>Select Faculty for Courses</h1>
 
-<!-- Dropdown to select Academic Semester -->
-<label for="semester">Select Academic Semester:</label>
-<select id="semester" name="semester" onchange="fetchCoursesBySemester()">
-  <option value="">--Select Semester--</option>
-</select>
+  <!-- Dropdown to select Academic Semester -->
+  <div class="form-group">
+    <label for="semester">Select Academic Semester:</label>
+    <select id="semester" name="semester" onchange="fetchCoursesBySemester()">
+      <option value="">--Select Semester--</option>
+    </select>
+  </div>
 
-<!-- Container to dynamically display courses and faculty selection -->
-<div id="course-container"></div>
+  <!-- Container to dynamically display courses and faculty selection -->
+  <div id="course-container"></div>
+
+  <!-- Submit button -->
+  <button type="button" onclick="submitFacultySelection()">Submit Selection</button>
+</div>
 
 <!-- External JavaScript file -->
 <script src="registration_window.js"></script>
