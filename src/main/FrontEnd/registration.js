@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
 
+    document.getElementById('view-history-btn').addEventListener('click', viewHistory);
+
     // Check if the registration is open
     checkRegistrationStatus().then(isOpen => {
         if (isOpen) {
@@ -11,6 +13,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Function to fetch and display enrollment history
+function viewHistory() {
+    fetch('http://localhost:8080/api/courses/enrollment/history', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch enrollment history');
+            }
+            return response.json();
+        })
+        .then(history => {
+            displayHistory(history);
+        })
+        .catch(error => {
+            console.error('Error fetching enrollment history:', error);
+        });
+}
+
+// Function to display enrollment history
+function displayHistory(history) {
+    const historyList = document.getElementById('history-list');
+    historyList.innerHTML = '<h2>Enrollment History</h2>';
+
+    history.forEach(entry => {
+        const historyItem = document.createElement('div');
+        historyItem.classList.add('history-item');
+        historyItem.innerHTML = `<p>Course Offering ID: ${entry.courseOfferingId}, Action: ${entry.action}, Timestamp: ${new Date(entry.timestamp).toLocaleString()}</p>`;
+        historyList.appendChild(historyItem);
+    });
+}
 
 // Function to check if registration is open
 function checkRegistrationStatus() {

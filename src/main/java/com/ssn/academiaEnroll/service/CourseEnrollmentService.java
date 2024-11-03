@@ -125,4 +125,9 @@ public class CourseEnrollmentService {
         // Check if the student is enrolled
         return courseOffering.getStudentIds().contains(studentId);
     }
+
+
+    public List<CourseEnrollmentHistory> getEnrollmentHistory(int studentId) {
+        return courseEnrollmentHistoryRepository.findByStudentId(studentId);
+    }
 }

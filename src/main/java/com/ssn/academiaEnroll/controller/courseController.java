@@ -1,6 +1,7 @@
 package com.ssn.academiaEnroll.controller;
 
 import com.ssn.academiaEnroll.Model.Course;
+import com.ssn.academiaEnroll.Model.CourseEnrollmentHistory;
 import com.ssn.academiaEnroll.Model.CourseOffering;
 import com.ssn.academiaEnroll.service.CourseEnrollmentService;
 import com.ssn.academiaEnroll.service.MyUserDetailsService;
@@ -92,6 +93,13 @@ public class courseController {
         int studentId = myUserDetailsService.getLoggedInUserId(authentication);
         boolean isEnrolled = courseEnrollmentService.isStudentEnrolled(courseOfferingId, studentId);
         return ResponseEntity.ok(isEnrolled);
+    }
+
+    @GetMapping("/enrollment/history")
+    public ResponseEntity<List<CourseEnrollmentHistory>> getEnrollmentHistory(Authentication authentication) {
+        int studentId = myUserDetailsService.getLoggedInUserId(authentication);
+        List<CourseEnrollmentHistory> history = courseEnrollmentService.getEnrollmentHistory(studentId);
+        return ResponseEntity.ok(history);
     }
 
 
