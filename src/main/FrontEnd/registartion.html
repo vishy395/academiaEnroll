@@ -5,11 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Registration</title>
     <script defer src="registration.js"></script>
+    <style>
+        /* Main Body Styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Heading Styling */
+        h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Button Styling */
+        #view-history-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 1.5rem;
+        }
+
+        #view-history-btn:hover {
+            background: linear-gradient(135deg, #5a0fb4 0%, #1f66d9 100%);
+            transform: translateY(-3px);
+        }
+
+        /* Course List and History Styling */
+        #course-list, #history-list {
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .course-item {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        /* Enroll Button Styling */
+        .enroll-btn {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #6a11cb;
+            color: #ffffff;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .enroll-btn:hover {
+            background-color: #5a0fb4;
+        }
+    </style>
 </head>
 <body>
-<h1>Course Registration</h1>
-<div id="course-list"></div>
-<button id="view-history-btn">View History</button>
-<div id="history-list"></div>
+<div class="container">
+    <h1>Course Registration</h1>
+    <div id="course-list">
+        <!-- Course items will be dynamically added here -->
+    </div>
+    <button id="view-history-btn">View History</button>
+    <div id="history-list">
+        <!-- History content will be dynamically added here -->
+    </div>
+</div>
 </body>
 </html>

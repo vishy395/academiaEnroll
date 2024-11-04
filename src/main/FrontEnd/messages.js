@@ -3,19 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!token) {
         alert('You are not logged in. Please log in to continue.');
-        window.location.href = 'login.html'; // Redirect to login page if token is missing
+        window.location.href = 'login.html';
         return;
     }
 
     loadMessages();
     loadReceivers(); // Load available receivers
 
-    $('#sendMessageButton').on('click', async function() { // Make the click handler async
+    $('#sendMessageButton').on('click', async function() {
         const content = $('#messageContent').val();
-        const senderId = await getSenderIdFromToken(token); // Await the sender ID
+        const senderId = await getSenderIdFromToken(token);
         console.log('Sender ID from token:', senderId);
         const receiverId = $('#receiverSelect').val();
-        console.log('receiverId ID from token:', receiverId);// Get the selected receiver ID
+        console.log('receiverId ID from token:', receiverId);
         sendMessage(senderId, receiverId, content);
     });
 });
@@ -34,7 +34,7 @@ function loadMessages() {
             return response.json();
         })
         .then(messages => {
-            $('.message-list').empty(); // Clear the message list
+            $('.message-list').empty();
             messages.forEach(message => {
                 $('.message-list').append(`
                 <div class="message">
@@ -66,9 +66,9 @@ function loadReceivers() {
         })
         .then(users => {
             const receiverSelect = $('#receiverSelect');
-            receiverSelect.empty(); // Clear existing options
+            receiverSelect.empty();
             users.forEach(user => {
-                receiverSelect.append(new Option(user.name, user.id)); // Assuming user.id exists
+                receiverSelect.append(new Option(user.name, user.id));
             });
         })
         .catch(error => {

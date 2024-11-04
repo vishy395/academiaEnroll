@@ -23,5 +23,5 @@ public class Module {
     private List<Integer> studentIds;
 
     @ElementCollection
-    private List<String> materialUrls;  // URLs for uploaded materials
+    private List<String> materialUrls;
 }

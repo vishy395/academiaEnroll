@@ -30,10 +30,9 @@ public class MessageService {
     private CourseOfferingRepository courseOfferingRepository;
 
     public List<Message> getMessagesForUser(Long userId) {
-        return messageRepository.findBySenderIdOrReceiverId(userId); // Assuming you have this method in your repository
+        return messageRepository.findBySenderIdOrReceiverId(userId);
     }
     public Message sendMessage(Message message) {
-        // Logic to save message to the database
         return messageRepository.save(message);
     }
 
@@ -71,11 +70,8 @@ public class MessageService {
     }
 
     private boolean isEnrolledInCourseOffering(int studentId, int facultyId) {
-        // Implement the logic to check if the student is enrolled in any courses offered by the faculty member
-        // This might involve checking course offerings linked to the facultyId and verifying the student's enrollment
         List<CourseOffering> enrolledOfferings = courseOfferingRepository.findByStudentId(studentId);
-        // Example logic (this needs to be adapted based on your actual models):
-        return enrolledOfferings // Assuming this method retrieves the list of course offerings the student is enrolled in
+        return enrolledOfferings
                 .stream()
                 .anyMatch(courseOffering -> courseOffering.getFacultyID() == facultyId);
     }

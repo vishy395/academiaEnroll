@@ -23,9 +23,6 @@ public class CourseEnrollmentService {
     private CourseEnrollmentHistoryRepository courseEnrollmentHistoryRepository;
 
     @Autowired
-    private studentRepository studentRepository;
-
-    @Autowired
     private facultyRepository facultyRepository;
 
     public String enrollStudent(int courseOfferingId, int studentId) {
@@ -118,11 +115,8 @@ public class CourseEnrollmentService {
     }
 
     public boolean isStudentEnrolled(int courseOfferingId, int studentId) {
-        // Fetch the course offering
         CourseOffering courseOffering = courseOfferingRepository.findById(courseOfferingId)
                 .orElseThrow(() -> new RuntimeException("Course offering not found"));
-
-        // Check if the student is enrolled
         return courseOffering.getStudentIds().contains(studentId);
     }
 

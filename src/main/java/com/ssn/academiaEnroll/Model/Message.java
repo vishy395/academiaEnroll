@@ -19,10 +19,10 @@ public class Message {
     private String content;
 
     @JoinColumn(name = "sender_id")
-    private int sender;  // This can be either Faculty or Student
+    private int sender;
 
     @JoinColumn(name = "receiver_id")
-    private int receiver; // This can be either Faculty or Student
+    private int receiver;
 
     private LocalDateTime timestamp;
 

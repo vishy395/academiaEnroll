@@ -34,8 +34,6 @@ public class academicSemesterService {
         academicSemesterRepository.deleteById(id);
     }
 
-
-
     public List<Course> getCoursesByAcademicSemester(Long semesterId) {
 
         academicSemester semester = academicSemesterRepository.findById(semesterId)

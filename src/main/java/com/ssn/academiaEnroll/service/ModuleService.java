@@ -4,21 +4,17 @@ import com.ssn.academiaEnroll.Model.Module;
 import com.ssn.academiaEnroll.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 public class ModuleService {
 
     @Autowired
     private ModuleRepository moduleRepository;
-    private static final String UPLOAD_DIR = "uploads/";
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+
 
     public Module createModule(Module module) {
         return moduleRepository.save(module);

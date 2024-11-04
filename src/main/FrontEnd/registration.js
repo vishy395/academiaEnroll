@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('view-history-btn').addEventListener('click', viewHistory);
 
-    // Check if the registration is open
+
     checkRegistrationStatus().then(isOpen => {
         if (isOpen) {
-            const studentId = getStudentIdFromToken(token);  // Assume you decode token to get student ID
+            const studentId = getStudentIdFromToken(token);
             fetchCoursesBySemester(studentId);
         } else {
             displayClosedRegistrationMessage();
@@ -63,19 +63,19 @@ function checkRegistrationStatus() {
             if (!response.ok) {
                 throw new Error('Failed to fetch registration status');
             }
-            return response.json(); // Return the boolean status
+            return response.json();
         })
         .catch(error => {
             console.error('Error checking registration status:', error);
             alert('Unable to check registration status. Please try again later.');
-            return false; // Default to false if there's an error
+            return false;
         });
 }
 
 // Function to get student ID from token
 function getStudentIdFromToken(token) {
-    const decodedToken = JSON.parse(atob(token.split('.')[1])); // Simplified JWT decode
-    return decodedToken.id;  // Assuming student ID is stored in token
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.id;
 }
 
 // Function to fetch courses for the student
