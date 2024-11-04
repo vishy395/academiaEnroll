@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
 
     document.getElementById('view-history-btn').addEventListener('click', viewHistory);
-
-
     checkRegistrationStatus().then(isOpen => {
         if (isOpen) {
             const studentId = getStudentIdFromToken(token);
@@ -135,9 +133,16 @@ function fetchCourseOfferings(courseId, courseDiv) {
                 const offeringDiv = document.createElement('div');
                 offeringDiv.classList.add('offering-item');
 
-                const offeringInfo = document.createElement('p');
-                offeringInfo.innerText = `Course Offering: ${offering.className}`;
-                offeringDiv.appendChild(offeringInfo);
+                // Fetch and display faculty name asynchronously
+                fetchUserDetails(offering.facultyID)
+                    .then(facultyName => {
+                        const offeringInfo = document.createElement('p');
+                        offeringInfo.innerText = `Course Offering: ${offering.className} - Faculty: ${facultyName}`;
+                        offeringDiv.appendChild(offeringInfo);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching faculty name:', error);
+                    });
 
                 const enrollButton = document.createElement('button');
 
@@ -169,6 +174,26 @@ function fetchCourseOfferings(courseId, courseDiv) {
         })
         .catch(error => {
             console.error('Error fetching course offerings:', error);
+        });
+}
+
+
+function fetchUserDetails(userId) {
+    return fetch(`http://localhost:8080/api/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch user details');
+            return response.json();
+        })
+        .then(user => user.name)
+        .catch(error => {
+            console.error(`Error fetching user details for ID ${userId}:`, error);
+            return 'Unknown';
         });
 }
 
