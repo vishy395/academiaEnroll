@@ -36,15 +36,37 @@ function loadMessages() {
         .then(messages => {
             $('.message-list').empty();
             messages.forEach(message => {
-                $('.message-list').append(`
-                <div class="message">
-                    <strong>${message.sender}:</strong> ${message.content} <em>${new Date(message.timestamp).toLocaleString()}</em>
-                </div>
-            `);
+                fetchUserDetails(message.sender)
+                    .then(senderName => {
+                        $('.message-list').append(`
+                    <div class="message">
+                        <strong>${senderName}:</strong> ${message.content} <em>${new Date(message.timestamp).toLocaleString()}</em>
+                    </div>
+                `);
+                    });
             });
         })
         .catch(error => {
             console.error('Error loading messages:', error);
+        });
+}
+
+function fetchUserDetails(userId) {
+    return fetch(`http://localhost:8080/api/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch user details');
+            return response.json();
+        })
+        .then(user => user.name)
+        .catch(error => {
+            console.error(`Error fetching user details for ID ${userId}:`, error);
+            return 'Unknown';
         });
 }
 

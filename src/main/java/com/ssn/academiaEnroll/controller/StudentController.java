@@ -58,14 +58,14 @@ public class StudentController {
     public Long getCurrentStudentSemester(Authentication authentication) {
         int studentId = myUserDetailsService.getLoggedInUserId(authentication);
         Student student = studentService.getStudentById(studentId);
-        return student.getAcademicSemester();  // Assuming this field exists in Student entity
+        return student.getAcademicSemester();
     }
 
     @GetMapping("/current/courses")
     public List<Course> getCoursesForCurrentStudent(Authentication authentication) {
         int studentId = myUserDetailsService.getLoggedInUserId(authentication);
         Student student = studentService.getStudentById(studentId);
-        Long semesterId = student.getAcademicSemester(); // Get the student's academic semester
+        Long semesterId = student.getAcademicSemester();
         return courseService.getCoursesByAcademicSemester(semesterId);
     }
 
