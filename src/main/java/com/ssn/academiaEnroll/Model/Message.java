@@ -11,25 +11,13 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Message extends Communication {
 
-    private String content;
-
-    @JoinColumn(name = "sender_id")
-    private int sender;
-
-    @JoinColumn(name = "receiver_id")
     private int receiver;
 
-    private LocalDateTime timestamp;
-
     public Message(String content, int sender, int receiver) {
-        this.content = content;
-        this.sender = sender;
+        super(content,sender);
         this.receiver = receiver;
-        this.timestamp = LocalDateTime.now();
     }
+
 }

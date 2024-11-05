@@ -1,13 +1,7 @@
 package com.ssn.academiaEnroll.service;
 
-import com.ssn.academiaEnroll.Model.CourseOffering;
-import com.ssn.academiaEnroll.Model.Faculty;
-import com.ssn.academiaEnroll.Model.Message;
-import com.ssn.academiaEnroll.Model.Student;
-import com.ssn.academiaEnroll.repository.CourseOfferingRepository;
-import com.ssn.academiaEnroll.repository.facultyRepository;
-import com.ssn.academiaEnroll.repository.MessageRepository;
-import com.ssn.academiaEnroll.repository.studentRepository;
+import com.ssn.academiaEnroll.Model.*;
+import com.ssn.academiaEnroll.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MessageService {
+public class CommunicationService {
 
     @Autowired
     private facultyRepository facultyRepository;
@@ -29,11 +23,20 @@ public class MessageService {
     @Autowired
     private CourseOfferingRepository courseOfferingRepository;
 
+    @Autowired
+    private AnnouncementRepository announcementRepository;
+
     public List<Message> getMessagesForUser(Long userId) {
         return messageRepository.findBySenderIdOrReceiverId(userId);
     }
-    public Message sendMessage(Message message) {
-        return messageRepository.save(message);
+    public <T extends Communication> T sendCommunication(T communication) {
+        if (communication instanceof Message) {
+            return (T) messageRepository.save((Message) communication);
+        } else if (communication instanceof Announcement) {
+            return (T) announcementRepository.save((Announcement) communication);
+        } else {
+            throw new IllegalArgumentException("Unsupported communication type");
+        }
     }
 
     public Optional<Message> getMessageById(Long id) {
@@ -61,7 +64,7 @@ public class MessageService {
         return false; // Default case if none of the conditions are met
     }
 
-    private boolean isFaculty(int userId) {
+    public boolean isFaculty(int userId) {
         return facultyRepository.existsById(userId);
     }
 
@@ -74,5 +77,9 @@ public class MessageService {
         return enrolledOfferings
                 .stream()
                 .anyMatch(courseOffering -> courseOffering.getFacultyID() == facultyId);
+    }
+
+    public List<Announcement> getAnnouncements() {
+        return announcementRepository.findAll();
     }
 }
