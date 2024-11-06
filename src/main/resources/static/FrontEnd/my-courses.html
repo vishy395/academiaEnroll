@@ -87,6 +87,13 @@
     .module a:hover {
       color: #2575fc;
     }
+
+    .module img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -118,15 +125,20 @@
                   moduleDiv.classList.add('module');
 
                   moduleDiv.innerHTML = `
-  <h2>${module.name}</h2>
-  <p><strong>Faculty ID:</strong> ${module.facultyId}</p>
-  <p><strong>Materials:</strong></p>
-  <ul>
-    ${module.materialUrls && module.materialUrls.length > 0
-                          ? module.materialUrls.map(url => `<li><a href="${url}" target="_blank">${url}</a></li>`).join('')
+            <h2>${module.name}</h2>
+            <p><strong>Faculty ID:</strong> ${module.facultyId}</p>
+            <p><strong>Materials:</strong></p>
+            <ul>
+              ${module.materialUrls && module.materialUrls.length > 0
+                          ? module.materialUrls.map(url => `
+                            <li>
+                              <a href="${url}" target="_blank">${url}</a>
+                              <br>
+                              <img src="${url}" alt="Material Image">
+                            </li>`).join('')
                           : '<li>No materials available</li>'}
-  </ul>
-`;
+            </ul>
+          `;
 
                   container.appendChild(moduleDiv);
                 });

@@ -36,7 +36,7 @@ VALUES (3, 'Assistant Professor', 5);
 -- Insert into the PEOPLE table (for students)
 -- Insert into people table first (base class)
 INSERT INTO people (id, name, username, password,role)
-VALUES (4, 'Alice Johnson', 'alice', '$2b$12$DNTkUIeYLF0/K/pIFMnE6uQSOFf5GnxjbG5/KBoe/8D8pCpZ2tYsq','ROLE_STUDENT');
+VALUES (4, 'Alice Johnson', 'alice', '$2a$16$kSW3LCskGB94X5qyPEIX6u6j1dcTbGMhLTLFhXQQcVwkZKXigbyVS','ROLE_STUDENT');
 
 INSERT INTO student (id, academic_semester)
 VALUES (4, 1);
@@ -74,5 +74,3 @@ VALUES (2, 2);
 INSERT INTO academic_semester_course_ids (academic_semester_id, course_ids)
 VALUES (2, 3);
 
-INSERT INTO message (content,sender,receiver)
-VALUES ('HELLO',1,5);
